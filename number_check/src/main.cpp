@@ -17,6 +17,12 @@ int main() {
             return 3;
             }
         }
+    
+    if (char_name.empty())
+        {
+        std::cout << "Your name needs characters \n";
+        return 4;
+        }
         
     std::cout << "Welcome, " << char_name << std::endl;
     
