@@ -6,6 +6,9 @@ int main() {
     std::string start_pop = "";
     int i_start_pop = 0;
     
+    std::string migrant_pop = "";
+    int i_migrant_pop = 0;
+    
     std::string births = "";
     int i_births = 0;
     
@@ -30,10 +33,31 @@ int main() {
     if (i_start_pop < 0)
         {
         std::cout << "Starting population cannot be negative." << std::endl;
-        return 1.1;
+        return 2;
         }
     
-    std::cout << "How many births? "; std::getline(std::cin ,births);
+    std::cout << "Migrated population in the coming year? "; std::getline(std::cin, migrant_pop);
+    
+    auto migrant_result = 
+       std::from_chars(
+       migrant_pop.data(), 
+       migrant_pop.data() + migrant_pop.size(), 
+       i_migrant_pop);
+    
+    if (!(migrant_result.ec == std::errc{}) || 
+        !(migrant_result.ptr == migrant_pop.data() + migrant_pop.size()))
+    {
+        std::cout << "Make sure migrant population uses standard numbers only." << std::endl;
+        return 3;
+    }
+    
+    if (i_migrant_pop < 0)
+    {
+        std::cout << "Migrated population cannot be negative." << std::endl;
+        return 4;
+    }
+    
+    std::cout << "How many births in the coming year? "; std::getline(std::cin ,births);
     
     auto births_result = 
         std::from_chars(
@@ -43,18 +67,18 @@ int main() {
     
     if (!(births_result.ec == std::errc{}) || 
         !(births_result.ptr == births.data() + births.size()))
-    {
+        {
         std::cout << "Make sure births uses standard numbers only." << std::endl;
-        return 2;
-    }
+        return 5;
+        }
     
     if (i_births < 0)
-    {
+        {
         std::cout << "Number of births cannot be negatives" << std::endl;
-        return 2.1;
-    }
+        return 6;
+        }
     
-    std::cout << "How many deaths? "; std::getline(std::cin, deaths);
+    std::cout << "How many deaths in the coming year? "; std::getline(std::cin, deaths);
     
     auto deaths_result = 
         std::from_chars(
@@ -65,17 +89,34 @@ int main() {
     
     if (!(deaths_result.ec == std::errc{}) || 
         !(deaths_result.ptr == deaths.data() + deaths.size()))
-    {
+        {
         std::cout << "Make sure deaths uses standard numbers only." << std::endl;
-        return 3;
-    }
+        return 7;
+        }
     
     if (i_deaths < 0)
-    {
-        std::cout << "Number of births cannot be negatives" << std::endl;
-        return 3.1;
-    }
+        {
+        std::cout << "Number of deaths cannot be negatives" << std::endl;
+        return 8;
+        }
     
+    int updated_population = i_start_pop + i_migrant_pop + i_births - i_deaths;
+    
+    if (updated_population <= 0)
+        {
+        std::cout << "The area is currently devoid of life." << std::endl;
+        updated_population = 0;
+        return 0;
+        }
+    else
+        {
+        std::cout << "The population of this area is: " << updated_population << std::endl;
+        return 0;
+        }
+    
+    // Used to output inputted numbers and show if conversion is successful and
+    // if the entire input was consumed
+    /*
     std::cout << "Starting population: " << i_start_pop << std::endl;
     
     std::cout << std::boolalpha;
@@ -101,7 +142,7 @@ int main() {
               << (deaths_result.ec == std::errc{}) << "\n"
               << "Entire input consumed: " 
               << (deaths_result.ptr == deaths.data() + deaths.size()) << std::endl;
-    
+    */
     
     
 }
