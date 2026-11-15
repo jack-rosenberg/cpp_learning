@@ -23,30 +23,35 @@ std::optional<int> get_population_input(const std::string& question)
 {
     std::string population = "";
     int i_population = 0;
+    int attempts = 0;
+    
+    while (attempts < 3)
+    {
+        std::cout << question; std::getline(std::cin, population);
         
-    std::cout << question; std::getline(std::cin, population);
-    
-    auto start_result = 
-       std::from_chars(
-       population.data(), 
-       population.data() + population.size(), 
-       i_population);
-    
-    if (!(start_result.ec == std::errc{}) || 
-        !(start_result.ptr == population.data() + population.size()))
-    {
-        std::cout << "Make sure starting population uses standard numbers only." << std::endl;
-       return std::nullopt;
+        auto start_result = 
+           std::from_chars(
+           population.data(), 
+           population.data() + population.size(), 
+           i_population);
+            
+        if (!(start_result.ec == std::errc{}) || 
+            !(start_result.ptr == population.data() + population.size()))
+        {
+            std::cout << "Make sure input uses standard numbers only." << std::endl;
+            attempts++;
+        }
+        else if (i_population < 0)
+        {
+            std::cout << "Input cannot be negative." << std::endl;
+            attempts++;
+        }
+        else
+        {
+            return i_population;
+        }
     }
-    else if (i_population < 0)
-    {
-        std::cout << "Starting population cannot be negative." << std::endl;
-        return std::nullopt;
-    }
-    else
-    {
-        return i_population;
-    }
+    return std::nullopt;
 }
 
 int main() {
