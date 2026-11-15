@@ -9,15 +9,10 @@ int update_pop(int starting, int migrants, int births, int deaths)
     int population = starting + migrants + births - deaths;
     if (population <= 0)
     {
-        std::cout << "The area is currently devoid of life." << std::endl;
         population = 0;
         return population;
     }
-    else
-    {
-        std::cout << "The population of this area is: " << population << std::endl;
-        return population;
-    }
+    return population;
 }
 
 void require_valid_input(bool value)
@@ -80,4 +75,15 @@ int main()
         migrants.value(), 
         births.value(), 
         deaths.value());    
+    
+    if (one_year_pop <= 0)
+    {
+        std::cout << "The area is currently devoid of life." << std::endl;
+    }
+    else
+    {
+        std::cout << "The population of this area is: " << one_year_pop << std::endl;  
+    }                      
+    
+    return 0;
 }
